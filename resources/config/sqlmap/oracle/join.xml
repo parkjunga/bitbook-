@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.bitbook.mapper.JoinMapper">
+
+	<insert id="insertJoin" parameterType="member">
+	<selectKey keyProperty="memNo" resultType="int" order="BEFORE">
+	 	select S_MEMBER_NO.nextval from dual
+	</selectKey>
+		insert into tb_member (
+		MEM_NO,MEM_ID,mem_pass,mem_email,mem_name)
+		values(
+		#{memNo},#{memId},#{memPass},#{memEmail},#{memName})
+	</insert>
+	<insert id="insertDetail" parameterType="int">
+		insert into tb_member_detail (
+		MEM_NO)
+		values(
+		#{memNo})
+	</insert>
+	
+	<select id="selectMemberCount" parameterType="string" resultType="int">
+     select count(*)
+	   from tb_member
+	  where mem_Id=#{memId}
+	</select>
+	
+
+	
+	
+
+</mapper>

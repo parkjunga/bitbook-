@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.bitbook.mapper.NotificationMapper">
+   <resultMap id="notificationMap" type="notification">
+      <result column="NOT_NO" property="notNo" />
+      <result column="mem_no" property="memNo" />
+      <result column="NOT_TYPE" property="notType" />
+      <result column="NOT_DATE" property="notRegDate" />
+      <result column="NOT_STATE" property="notState" />
+      <result column="REQ_MEM_NO" property="reqMemNo" />
+      <result column="NOT_MESSAGE" property="notMessage" />
+      <result column="NOT_READ_DATE" property="notReadDate" />
+      <result column="REQ_NO" property="reqNo" />
+      <result column="PROFILE_PATH" property="profilePath" />
+      <result column="mem_name" property="memName" />
+      <result column="login" property="login" />
+   </resultMap>
+	
+	<select id="selectNoti" parameterType="int" resultMap="notificationMap">
+			select n.*,m.PROFILE_PATH,m.mem_name,m.login
+		from tb_notification n
+    left join tb_member m 
+    on n.REQ_MEM_NO = m.mem_no
+		where n.mem_no=#{memNo} 
+		ORDER BY NOT_DATE DESC
+	</select>
+	<update id="updateNotiHide" parameterType="int">
+	update tb_notification
+	set NOT_STATE='H'
+	where NOT_NO=#{notNo}
+	</update>
+	<update id="updateNotiRead" parameterType="int">
+	update tb_notification
+	set NOT_STATE='R'
+	where NOT_NO=#{notNo}
+	</update>
+</mapper>
+

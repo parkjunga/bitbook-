@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh>
+
+  <mapping path="/*" decorator="/jsp/template/decorator.jsp"/>
+  <!-- sitemesh 적용 하기 싫을때 패턴 -->
+ <!-- <mapping path="URL주소" exclude="true"/> --> 
+  <!-- sitemesh 적용 하기 싫을때 패턴 -->   
+  <mapping path="/jsp/main/comment.jsp" exclude="true"/>
+  <mapping path="/jsp/main/post.jsp" exclude="true"/>
+  <mapping path="/jsp/login/index.jsp" exclude="true"/>
+  <mapping path="/jsp/login/join.jsp" exclude="true"/>
+ <!--  <mapping path="/jsp/login/te.jsp" exclude="true"/>-->
+  <mapping path="/jsp/login/test.jsp" exclude="true"/> 
+  <mapping path="/jsp/login/te.jsp" exclude="true"/> 
+  <mapping path="/bitbook/login" exclude="true"/>
+ <!--  <mapping path="/bitbook/joinForm" exclude="true"/> -->
+  <mapping path="/bitbook/join" exclude="true"/>
+  <mapping path="/bitbook/joinA" exclude="true"/>
+</sitemesh>
+
+

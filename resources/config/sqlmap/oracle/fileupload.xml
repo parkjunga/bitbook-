@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.bitbook.mapper.FileMapper">
+	<resultMap id="fileUploadMap" type="fileUpload">
+		<result column="file_group_no" property="fileGroupNo" />
+		<result column="mem_no" property="memNo" />
+		<result column="file_no" property="fileNo" />
+		<result column="file_path" property="filePath" />
+		<result column="ori_name" property="oriName" />
+		<result column="system_name" property="systemName" />		
+		<result column="file_type" property="fileType" />		
+	</resultMap>
+	
+	<insert id="insertFileGroupNo" parameterType="fileUpload">
+ 	<selectKey keyProperty="fileGroupNo" resultType="int" order="BEFORE">
+ 		select s_file_group_no.nextval from dual
+ 	</selectKey>
+ 	insert into tb_file_group(
+ 		file_group_no,
+ 		mem_no
+ 	)values(
+ 		#{fileGroupNo},
+ 		#{memNo}
+ 	)
+ 	</insert>
+ 	
+ 	<insert id="insertFile" parameterType="fileUpload">
+ 	insert into tb_file(
+ 		file_no,
+ 		file_group_no,
+ 		file_path,
+ 		ori_name,
+ 		system_name,
+ 		file_type
+ 	)values(
+ 		s_file_no.nextval,
+ 		#{fileGroupNo},
+ 		#{filePath},
+ 		#{oriName},
+ 		#{systemName},
+ 		#{fileType}
+ 	)
+ 	</insert>
+
+
+</mapper>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.bitbook.mapper.FriendsMapper">
+   <resultMap id="memberMap" type="member">
+      <result column="mem_no" property="memNo" />
+      <result column="friends_No" property="friendsNo" />
+      <result column="mem_id" property="memId" />
+      <result column="mem_pass" property="memPass" />
+      <result column="mem_email" property="memEmail" />
+      <result column="mem_name" property="memName" />
+      <result column="join" property="join" />
+      <result column="logout_date" property="logoutDate" />
+      <result column="profile_path" property="profilePath" />
+      <result column="cover_path" property="coverPath" />
+      <result column="login" property="login" />
+      <result column="acc_state" property="accState" />
+   </resultMap>
+	
+    <resultMap type="friends" id="friendsMap">
+        <result column="mem_no" property="memNo" />        
+        <result column="friends_no" property="friendsNo" />        
+        <result column="acc_state" property="accState" />        
+    </resultMap>
+    
+    <select id="selectListFriends" resultMap="friendsMap">
+select * 
+from tb_member m
+inner join tb_member_detail d
+  on m.mem_no in(
+                   select friends_no
+                    from tb_friends
+                    where mem_no=#{friendsNo})
+                    where m.mem_no=d.mem_no
+    </select>
+
+
+    <select id="selectSearchFriends" parameterType="member" resultMap="memberMap">
+<!--     select m.*, f.ACC_STATE
+  from tb_member m 
+  inner join tb_friends f
+  on m.MEM_NO=f.mem_no
+  where mem_name like '%'||#{memName}||'%' and mem_id!=#{memId} 
+   order by mem_name;-->
+     select *
+  from tb_member
+  where mem_name like '%'||#{memName}||'%' and mem_id!=#{memId}
+  order by mem_name 
+    </select>
+    
+    <select id="selectSearchMyFriends" resultMap="memberMap" parameterType="member">
+     select mem_name, friends_no, login, profile_path, logout_date ,m.mem_no
+     from tb_friends f
+    inner join tb_member m
+       on f.friends_no = m.mem_no
+    where f.mem_no = #{memNo}
+      and m.mem_name like '%'||#{memName}||'%'
+      and acc_state='A'
+    order by login 
+    </select>
+    <select id="selectMyFriends" resultMap="memberMap" parameterType="member">
+     select mem_name, friends_no, login, profile_path, logout_date ,m.mem_no
+     from tb_friends f
+    inner join tb_member m
+       on f.friends_no = m.mem_no
+    where f.mem_no = #{memNo}
+      and acc_state='A'
+    order by login 
+    </select>
+    
+    <!-- 친구 요청 중인 사람 부르기 -->
+    <select id="selectReqFriends" parameterType="int" resultType="int">
+     select friends_no as friendsNo
+  from tb_friends
+  where mem_no=#{no} and acc_state='R'
+    </select>
+    
+    <select id="selectReqList" parameterType="int" resultMap="memberMap">
+    	    select mem_name, friends_no, login, profile_path, logout_date, f.mem_no as mem_no
+   from tb_friends f
+  inner join tb_member m
+  on f.mem_no=m.mem_no
+  where f.friends_no=#{memNo} and f.acc_state='R'
+    </select>
+    <select id="selectMember" parameterType="int" resultMap="memberMap">
+    select *
+     from tb_member
+     where mem_no = #{memNo}
+    </select>
+    
+    <delete id="deleteReqFriends" parameterType="friends">
+     delete tb_friends
+      where mem_no=#{memNo} and friends_no=#{friendsNo}
+    </delete>
+    
+    <delete id="deleteFriends1" parameterType="friends">
+    delete tb_friends
+      where mem_no=#{memNo} and friends_no=#{friendsNo}
+    </delete>
+    <delete id="deleteFriends2" parameterType="friends">
+    delete tb_friends
+      where mem_no=#{friendsNo} and friends_no=#{memNo}
+    </delete>
+    
+    
+    <insert id="insertReqFriends" parameterType="friends">
+    insert into tb_friends(
+        mem_no,
+        friends_no,
+        acc_state
+    )values(
+        #{memNo},
+        #{friendsNo},
+        'R'
+    )
+    </insert>
+    <insert id="insertAccFriends" parameterType="friends">
+    insert into tb_friends(
+        mem_no,
+        friends_no,
+        acc_state
+    )values(
+        #{memNo},
+        #{friendsNo},
+        'A'
+    )
+    </insert>
+    <update id="updateAccFriends" parameterType="friends">
+        update tb_friends set acc_state = 'A'
+        where mem_no=#{friendsNo} and
+                  friends_no=#{memNo}
+    </update>
+   <!--  <update id="updateDenFriends" parameterType="friends">
+        update tb_friends set acc_state = 'D'
+        where mem_no=#{friendsNo} and
+                  friends_no=#{memNo}
+    </update> -->
+    <delete id="deleteFriedns" parameterType="friends">
+    	delete tb_firends 
+    	where mem_no=#{friendsNo} and
+                  friends_no=#{memNo}
+    </delete>
+    
+    <delete id="deleteNotiFriends" parameterType="friends">
+    	delete tb_notification 
+    	where mem_no=#{friendsNo} and
+                  req_mem_no=#{memNo}
+    </delete>
+    
+    
+    
+    
+<!--     <insert id="insertNotiReq" parameterType="friends">
+    insert into TB_NOTIFICATION(
+	 not_no,mem_no,not_type,req_mem_no,not_message
+	)values(s_not_no.nextval,#{friendsNo},'친구를',#{memNo},'요청하였습니다.')
+    </insert> -->
+    
+    
+</mapper>
+

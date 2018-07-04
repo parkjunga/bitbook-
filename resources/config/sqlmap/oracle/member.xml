@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.bitbook.mapper.MemberMapper">
+   <resultMap id="memberMap" type="member">
+      <result column="mem_no" property="memNo" />
+      <result column="friends_No" property="friendsNo" />
+      <result column="mem_id" property="memId" />
+      <result column="mem_pass" property="memPass" />
+      <result column="mem_email" property="memEmail" />
+      <result column="mem_name" property="memName" />
+      <result column="join" property="join" />
+      <result column="logout_date" property="logoutDate" />
+      <result column="profile_path" property="profilePath" />
+      <result column="cover_path" property="coverPath" />
+      <result column="login" property="login" />
+   </resultMap>
+	
+    <resultMap type="memberDetail" id="memberDetailMap">
+        <result column="mem_no" property="memNo" />        
+        <result column="skill" property="skill" />        
+        <result column="college" property="college" />        
+        <result column="home" property="home" />        
+        <result column="phone" property="phone" />        
+        <result column="birth" property="birth" />        
+        <result column="gender" property="gender" />        
+        <result column="blood" property="blood" />        
+        <result column="introduce" property="introduce" />        
+        <result column="info_open_range" property="infoOpenRange" />        
+        <result column="nickname" property="nickname" />        
+        <result column="login" property="login" />        
+        <result column="logout_date" property="logoutDate" />        
+        <result column="addr" property="addr" />        
+    </resultMap>
+    
+    <resultMap type="job" id="jobMap">
+    	<result column="job_no" property="jobNo"/>
+    	<result column="mem_no" property="memNo"/>
+    	<result column="job_name" property="jobName"/>
+    	<result column="job_position" property="jobPosition"/>
+    	<result column="job_city" property="jobCity"/>
+    	<result column="job_info" property="jobInfo"/>
+    </resultMap>
+    
+    <select id="selectMemberDetail" parameterType="int" resultMap="memberDetailMap">
+    	select *
+    	from tb_member_detail
+    	where mem_no = #{memNo}
+    </select>
+    
+    <insert id="insertJob" parameterType="job" >
+    insert into tb_job(
+    	job_no,mem_no,job_name,job_position,job_city,job_info
+    )values(
+    	s_job_no.nextval,#{memNo},#{jobName},#{jobPosition},#{jobCity},#{jobInfo}
+    )
+    </insert>
+    <select id="selectJob" parameterType="int" resultMap="jobMap">
+    select *
+    from tb_job
+    where mem_no=#{memNo}
+    </select>
+    <select id="selectJobNo" parameterType="int" resultMap="jobMap">
+    select *
+    from tb_job
+    where job_no=#{jobNo}
+    </select>
+    <update id="updateJob" parameterType="job" >
+    update tb_job
+    set job_name = #{jobName},job_position =#{jobPosition},job_city=#{jobCity},job_info=#{jobInfo}
+    where job_no=#{jobNo}
+    </update>
+    <delete id="deleteJob" parameterType="int">
+    delete tb_job
+    where job_no=#{jobNo}
+    </delete>
+    <update id="updateAddr" parameterType="memberDetail">
+    update tb_member_detail
+    set addr=#{addr}
+    where mem_no=#{memNo}
+    </update>
+    <update id="updateCollege" parameterType="memberDetail">
+    update tb_member_detail
+    set college = #{college}
+    where mem_no=#{memNo}
+    </update>
+    <update id="updateSkill" parameterType="memberDetail">
+    update tb_member_detail
+    set skill=#{skill}
+    where mem_no=#{memNo}
+    </update>
+    <update id="updateHome" parameterType="memberDetail">
+    update tb_member_detail
+    set home=#{home}
+    where mem_no=#{memNo}
+    </update>
+    <update id="updatePhone" parameterType="memberDetail">
+    update tb_member_detail
+    set phone=#{phone}
+    where mem_no=#{memNo}
+    </update>
+    <update id="updateBirth" parameterType="memberDetail">
+    update tb_member_detail
+    set birth=#{birth}
+    where mem_no=#{memNo}
+    </update>
+    <update id="updateGender" parameterType="memberDetail">
+    update tb_member_detail
+    set gender=#{gender}
+    where mem_no=#{memNo}
+    </update>
+    <update id="updateBlood" parameterType="memberDetail">
+    update tb_member_detail
+	set blood=#{blood}
+    where mem_no=#{memNo}
+    </update>
+    <update id="updateIntroduce" parameterType="memberDetail">
+    update tb_member_detail
+    set introduce=#{introduce}
+    where mem_no=#{memNo}
+    </update>
+    <update id="updateInfoOpenRange" parameterType="memberDetail">
+    update tb_member_detail
+    set info_open_range=#{infoOpenRange}
+    where mem_no=#{memNo}
+    </update>
+    <update id="updateNickname" parameterType="memberDetail">
+    update tb_member_detail
+    set nickname=#{nickname}
+    where mem_no=#{memNo}
+    </update>
+    <update id="updateLogin" parameterType="memberDetail">
+    update tb_member_detail
+   	set login=#{login}
+    where mem_no=#{memNo}
+    </update>
+    <update id="updateLogoutDate" parameterType="memberDetail">
+    update tb_member_detail
+    set logout_date=#{logoutDate}
+    where mem_no=#{memNo}
+    </update>
+    <update id="updateProfile" parameterType="member">
+    update tb_member
+    set profile_path=#{profilePath}
+    where mem_no=#{memNo}
+    </update>
+    <update id="updateCover" parameterType="member">
+    update tb_member
+    set cover_path=#{coverPath}
+    where mem_no=#{memNo}
+    </update>
+</mapper>
+

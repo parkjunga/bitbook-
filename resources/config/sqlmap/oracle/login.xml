@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.bitbook.mapper.LoginMapper">
+	<resultMap id="MemberMap" type="member">
+		<result column="mem_no" property="memNo" />
+		<result column="mem_id" property="memId" />
+		<result column="mem_pass" property="memPass" />
+		<result column="mem_email" property="memEmail" />
+		<result column="mem_name" property="memName" />
+		<result column="join" property="join" />
+		<result column="logout_date" property="logoutDate" />
+		<result column="profile_path" property="profilePath" />
+		<result column="cover_path" property="coverPath" />
+		<result column="login" property="login" />
+	</resultMap>
+	<select id="selectMemberById" parameterType="string" resultMap="MemberMap">
+		select *
+		from tb_member
+		where MEM_ID = #{memId}
+	</select>
+	<update id="updateLogin" parameterType="string">
+	 update tb_member
+   set login = 'i'
+  where mem_id=#{memId}
+	</update>
+	<!-- <select id="searchMemberByEmail" parameterType="string"> select * from 
+		tb_member where mem_email = #{memEmail} </select> -->
+	<!--  , logout_date = sysdate -->
+	<update id="updateOut" parameterType="string">
+	 update tb_member
+   set login = 'n', logout_date = sysdate
+  where mem_id=#{memId}
+	</update>
+	<select id="selectMemberEmail" parameterType="string" resultMap="MemberMap">
+	 select *
+	   from tb_member 
+	  where mem_name=#{memName}
+	</select>
+	
+		<select id="selectMemberCode" parameterType="string" resultMap="MemberMap">
+	 select *
+	   from tb_member 
+	  where mem_email=#{memEmail}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

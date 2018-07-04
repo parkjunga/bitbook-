@@ -1,0 +1,51 @@
+package kr.co.bitbook.member.controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import kr.co.bitbook.common.db.MyAppSqlConfig;
+import kr.co.bitbook.domain.Job;
+import kr.co.bitbook.domain.Member;
+import kr.co.bitbook.domain.MemberDetail;
+import kr.co.bitbook.mapper.FriendsMapper;
+import kr.co.bitbook.mapper.MemberMapper;
+
+@WebServlet("/member/outline")
+public class ListOutlineMember extends HttpServlet{
+
+	@Override
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		int memNo=0;
+		Member member = new Member();
+		try {
+			memNo = Integer.parseInt(request.getParameter("memNo"));
+		} catch (Exception e) {
+			System.out.println(e);
+			HttpSession session = request.getSession();
+			member = (Member)session.getAttribute("user");
+			memNo= member.getMemNo();
+		}
+		member = MyAppSqlConfig.getSqlSession().getMapper(FriendsMapper.class).selectMember(memNo);
+		System.out.println(memNo);
+		MemberDetail memberDetail=MyAppSqlConfig.getSqlSession().getMapper(MemberMapper.class).selectMemberDetail(memNo);
+		List<Job> jList =MyAppSqlConfig.getSqlSession().getMapper(MemberMapper.class).selectJob(memNo);
+		System.out.println("============공개범위==============================");
+		System.out.println(memberDetail.getInfoOpenRange());
+		request.setAttribute("member", member);
+		request.setAttribute("memberDetail", memberDetail);
+		request.setAttribute("jList", jList);
+		System.out.println(memberDetail);
+		RequestDispatcher rd = request.getRequestDispatcher("/jsp/member/viewMemberOutline.jsp");
+		rd.forward(request, response);	
+	}
+	
+}

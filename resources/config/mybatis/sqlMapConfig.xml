@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<properties resource="config/mybatis/db.properties" />
+	
+	<typeAliases>
+		<typeAlias alias="comment" type="kr.co.bitbook.domain.Comment" />
+		<typeAlias alias="likeComment" type="kr.co.bitbook.domain.LikeComment" />
+		<typeAlias alias="commentTag" type="kr.co.bitbook.domain.CommentTag" />
+		<typeAlias alias="fileUpload" type="kr.co.bitbook.domain.FileUpload" />
+		<typeAlias alias="friends" type="kr.co.bitbook.domain.Friends" />
+		<typeAlias alias="gallery" type="kr.co.bitbook.domain.Gallery" />
+		<typeAlias alias="job" type="kr.co.bitbook.domain.Job" />
+		<typeAlias alias="member" type="kr.co.bitbook.domain.Member" />
+		<typeAlias alias="memberDetail" type="kr.co.bitbook.domain.MemberDetail" />
+		<typeAlias alias="notification" type="kr.co.bitbook.domain.Notification" />
+		<typeAlias alias="post" type="kr.co.bitbook.domain.Post" />
+		<typeAlias alias="likePost" type="kr.co.bitbook.domain.LikePost" />
+		<typeAlias alias="postTag" type="kr.co.bitbook.domain.PostTag" />
+		<typeAlias alias="searchFriends" type="kr.co.bitbook.domain.SearchFriends" />
+	</typeAliases>
+	
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC"/>
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}"/>
+				<property name="url" value="${url}"/>
+				<property name="username" value="${username}"/>
+				<property name="password" value="${password}"/>
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<!-- 
+		개별적으로 작성한 mapper.xml(SQL)의 위치를 알려준다.
+	 -->
+	<mappers>
+		<mapper resource="config/sqlmap/oracle/fileupload.xml"/>
+		<mapper resource="config/sqlmap/oracle/friends.xml"/>
+ 		<mapper resource="config/sqlmap/oracle/gallery.xml"/>
+		<mapper resource="config/sqlmap/oracle/join.xml"/>
+		<mapper resource="config/sqlmap/oracle/login.xml"/>
+		<mapper resource="config/sqlmap/oracle/main.xml"/>
+		<mapper resource="config/sqlmap/oracle/member.xml"/> 
+		<mapper resource="config/sqlmap/oracle/notification.xml"/> 
+	</mappers>
+</configuration>
+
+
+
+
+
+
+
+
+
