@@ -32,10 +32,17 @@
    set login = 'n', logout_date = sysdate
   where mem_id=#{memId}
 	</update>
-	<select id="selectMemberEmail" parameterType="string" resultMap="MemberMap">
+	<select id="findId" parameterType="map" resultMap="MemberMap">
 	 select *
 	   from tb_member 
-	  where mem_name=#{memName}
+	  where mem_name=#{name}
+	    and mem_email=#{email}
+	</select>
+	<select id="selectMemberEmail" parameterType="map" resultMap="MemberMap">
+	 select *
+	   from tb_member 
+	  where mem_name=#{name}
+	    and mem_email=#{email}
 	</select>
 	
 		<select id="selectMemberCode" parameterType="string" resultMap="MemberMap">

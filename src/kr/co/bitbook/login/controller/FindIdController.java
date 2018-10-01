@@ -14,8 +14,8 @@ import kr.co.bitbook.common.db.MyAppSqlConfig;
 import kr.co.bitbook.domain.Member;
 import kr.co.bitbook.mapper.LoginMapper;
 
-@WebServlet("/bitbook/FindEmailDirect")
-public class FindEmail extends HttpServlet{
+@WebServlet("/bitbook/FindId")
+public class FindIdController extends HttpServlet{
 	
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -24,17 +24,19 @@ public class FindEmail extends HttpServlet{
 		String name = request.getParameter("name");
 		System.out.println(name);
 		String email = request.getParameter("email");
-		Member info = mapper.findId(name,email);
-		if(info == null) {
-			request.setAttribute("errPass", "이름과 이메일이 일치하지 않습니다.");
+		Member info = mapper.selectMemberEmail(name,email);
+		System.out.println(email);
+		System.out.println(info);
+		if(info == null ) {
+			request.setAttribute("errId", "이름과 이메일이 일치하지 않습니다.");
 			System.out.println("2");
 		}else if(info.getMemName().equals(name)&&info.getMemEmail().equals(email)) {
 			System.out.println("성공");
 			out.println("<script>");
-			out.println("alert('"+info.getMemPass()+"')");
+			out.println("alert('"+info.getMemId()+"')");
 			out.println("location.href='login'");
 			out.println("</script>");
-			System.out.println(info.getMemPass());
+			System.out.println(info.getMemId());
 			//response.sendRedirect(request.getContextPath() + "/bitbook/login");
 			return;
 		}

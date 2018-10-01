@@ -90,7 +90,7 @@ public class FindEmailCode extends HttpServlet {
 				int num = Number(6);
 				number = String.valueOf(num);
 				// Text
-				message.setText(number);
+				message.setText("BitBook 인증코드 : "+ number);
 
 				// send the message
 				Transport.send(message);
